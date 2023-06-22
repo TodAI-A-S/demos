@@ -41,7 +41,7 @@ tools = [
     )
 ]
 
-sys_msg = f"""You are an assistent helping the company 'Forsikring and Pension'. You need to help them prepare for an upcoming event called Folkemødet 2023. They need your help preparing for debates. Asides from this follow this: Assistant is a large language model.
+sys_msg = f"""You are an assistent helping the company 'Forsikring and Pension'. They need your help preparing for debates. Asides from this follow this: Assistant is a large language model.
     
     Assistant is designed to be able to assist with a wide range of tasks, from answering simple questions to providing in-depth explanations and discussions on a wide range of topics. As a language model, Assistant is able to generate human-like text based on the input it receives, allowing it to engage in natural-sounding conversations and provide responses that are coherent and relevant to the topic at hand.
 
@@ -64,14 +64,12 @@ agent = initialize_agent(
     llm=llm,
     verbose=True,
     memory=st.session_state['memory']
-)
+    agent_kwargs={
 
-new_prompt = agent.agent.create_prompt(
-    system_message=sys_msg,
-    tools=tools
-)
+        "system_message": sys_msg
 
-agent.agent.llm_chain.prompt = new_prompt
+    }
+)
 
 st.header("AI Agent")
 
@@ -83,7 +81,7 @@ if 'past' not in st.session_state:
 
 
 def get_text():
-    input_text = st.text_input(" ", "Hello, how are you?", key="input")
+    input_text = st.text_input(" ", "Hej, hvem er du?", key="input")
     return input_text
 
 
