@@ -63,7 +63,7 @@ agent = initialize_agent(
     tools=tools,
     llm=llm,
     verbose=True,
-    memory=st.session_state['memory']
+    memory=st.session_state['memory'],
     agent_kwargs={
 
         "system_message": sys_msg
