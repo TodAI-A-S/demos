@@ -20,8 +20,8 @@ from getpass import getpass
 from datetime import date
 
 import os
-os.environ['OPENAI_API_KEY'] = "sk-"
-os.environ["SERPER_API_KEY"] = ""
+os.environ['OPENAI_API_KEY'] = st.secrets["OPENAI_API_KEY"]
+os.environ["SERPER_API_KEY"] = st.secrets["SERPER_API_KEY"]
 
 
 llm = OpenAI(model_name='text-davinci-003', temperature=0.4)
