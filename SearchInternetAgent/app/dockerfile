@@ -1,0 +1,9 @@
+FROM python:3.9
+
+COPY requirements.txt /code/requirements.txt
+RUN pip install --upgrade -r /code/requirements.txt
+
+EXPOSE 8501
+
+COPY ./src /src
+WORKDIR /src

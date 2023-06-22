@@ -1,0 +1,16 @@
+services:
+  app:
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DEBUG=1
+    build: .
+    ports:
+      - "8501:8501"
+    command:
+      [
+        "streamlit",
+        "run",
+        "--server.address=0.0.0.0",
+        "--server.port=8501",
+        "/src/app.py",
+      ]
