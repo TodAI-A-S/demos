@@ -71,7 +71,7 @@ if "memory" not in st.session_state:
 
 
 agent = initialize_agent(
-    agent="self-ask-with-search",
+    agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION,
     tools=tools,
     llm=llm,
     verbose=True,
