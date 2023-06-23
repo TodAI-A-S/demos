@@ -18,27 +18,39 @@ from langchain.schema import AgentAction, AgentFinish, HumanMessage
 import re
 from getpass import getpass
 from datetime import date
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 
 import os
 os.environ['OPENAI_API_KEY'] = st.secrets["OPENAI_API_KEY"]
 os.environ["SERPER_API_KEY"] = st.secrets["SERPER_API_KEY"]
 
+prompt = PromptTemplate(
+    input_variables=["query"],
+    template="{query}"
+)
 
 llm = OpenAI(model_name='text-davinci-003', temperature=0.4)
 search = GoogleSerperAPIWrapper()
 llm_math_chain = LLMMathChain(llm=llm, verbose=True)
+llm_chain = LLMChain(llm=llm, prompt=prompt)
 
 tools = [
     Tool(
         name="Search",
         func=search.run,
-        description="useful for when asked to search for answers to questions about current events."
+        description="useful for when asked to search for answers to questions about current events. You should ask targeted questions."
     ),
     Tool(
         func=llm_math_chain.run,
         name="Calculator",
         description="useful for when you need to answer questions about math."
-    )
+    ),
+    Tool(
+    name='Language Model',
+    func=llm_chain.run,
+    description='use this tool for general purpose queries and logic'
+)
 ]
 
 sys_msg = f"""You are an assistent helping the company 'Forsikring and Pension'. They need your help preparing for debates. Asides from this follow this: TodBot is a large language model.
@@ -59,7 +71,7 @@ if "memory" not in st.session_state:
 
 
 agent = initialize_agent(
-    agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION,
+    agent="self-ask-with-search",
     tools=tools,
     llm=llm,
     verbose=True,
