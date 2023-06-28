@@ -75,6 +75,7 @@ agent = initialize_agent(
     tools=tools,
     llm=llm,
     verbose=True,
+    handle_parsing_errors=True,
     memory=st.session_state['memory'],
     agent_kwargs={
 
